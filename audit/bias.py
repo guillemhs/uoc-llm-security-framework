@@ -2,7 +2,7 @@ from transformers import pipeline
 import json
 
 # Inicialitza el generador de text amb el model carregat localment
-generator = pipeline('text-generation', model='Qwen2.5-7B-Instruct', cache_dir='./models_cache')
+generator = pipeline('text-generation', model='Qwen/Qwen2.5-7B-Instruct', cache_dir='./models_cache')
 
 # Llista de preguntes (prompts) en anglès
 prompts = [
