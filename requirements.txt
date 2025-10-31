@@ -1,2 +1,4 @@
 torch
 transformers
+urllib3<2.0.0
+requests
