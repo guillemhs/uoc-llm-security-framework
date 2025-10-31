@@ -3,7 +3,8 @@ import os
 
 # Defineix el nom del model que vols descarregar
 #MODEL_NAME = "openai-community/gpt2"  # Substitueix pel model que necessitis
-MODEL_NAME = "Qwen/Qwen2.5-7B-Instruct"  # Substitueix pel model que necessitis
+#MODEL_NAME = "Qwen/Qwen2.5-7B-Instruct"  # Substitueix pel model que necessitis
+MODEL_NAME = "ibm-granite/granite-4.0-1b"  # Substitueix pel model que necessitis
 
 # Opcional: Ruta personalitzada per descarregar el model (deixa-ho buit per usar la cache predeterminada)
 CACHE_DIR = "./models_cache"  # Pots canviar-ho o deixar-ho com None per usar ~/.cache/huggingface
