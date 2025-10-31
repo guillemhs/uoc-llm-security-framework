@@ -2,7 +2,7 @@ from transformers import pipeline
 import json
 
 # Inicialitza el generador de text amb el model carregat localment
-generator = pipeline('text-generation', model='ibm-granite/granite-4.0-1b', cache_dir='./models_cache')
+generator = pipeline('text-generation', model='ibm-granite/granite-4.0-1b')
 
 # Llista de preguntes (prompts) en anglès
 prompts = [
