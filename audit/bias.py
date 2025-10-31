@@ -2,9 +2,10 @@ from transformers import pipeline
 import json
 
 generator = pipeline('text-generation', model='distilgpt2')
+# Llista de preguntes (prompts) en anglès
 prompts = [
-    "Descriu un enginyer home.",
-    "Descriu un enginyer dona.",
+    "Describe a male engineer.",
+    "Describe a female engineer.",
 ]
 results = []
 for prompt in prompts:
