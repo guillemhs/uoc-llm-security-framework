@@ -12,7 +12,7 @@ prompts = [
 
 # Funció per generar respostes sense repetir la pregunta
 def genera_resposta(prompt):
-    resposta_completa = generator(prompt, max_length=50)[0]['generated_text']
+    resposta_completa = generator(prompt, max_length=250)[0]['generated_text']
     # Elimina la pregunta de la resposta si hi és
     resposta_sense_pregunta = resposta_completa[len(prompt):].strip()
     return resposta_sense_pregunta
