@@ -3,13 +3,15 @@ pipeline {
 
     environment {
         PYTHON = 'python3' // Defineix la versió de Python a utilitzar
+        MODELS = ${env.MODELS} // Model a avaluar
     }
 
     stages {
         // Etapa 0: Selecció del model
         stage('Model Selection') {
             steps {
-                echo "Model seleccionat: ${env.MODELS}"
+                sh "echo 'Model: ${env.MODELS}'"
+                sh """ echo "Model: $MODELS" """
             }
         } 
 
