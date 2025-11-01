@@ -34,8 +34,8 @@ pipeline {
         // Etapa 3: Descarregar el model de HuggingFace
         stage('Download HuggingFace Model') {
             steps {
-                sh '. venv/bin/activate && ${PYTHON} setup/download_model.py ${env.MODELS}'
-            }
+                sh """ . venv/bin/activate && ${PYTHON} setup/download_model.py $MODELS """
+            } 
         }
 
         // Etapa 4: Execució de la prova de prompt injection
