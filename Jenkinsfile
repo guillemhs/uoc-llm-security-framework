@@ -3,7 +3,6 @@ pipeline {
 
     environment {
         PYTHON = 'python3' // Defineix la versió de Python a utilitzar
-        MODELS = ${env.MODELS} // Model a avaluar
     }
 
     stages {
@@ -11,7 +10,6 @@ pipeline {
         stage('Model Selection') {
             steps {
                 sh "echo 'Model: ${env.MODELS}'"
-                sh """ echo "Model: $MODELS" """
             }
         } 
 
@@ -34,7 +32,7 @@ pipeline {
         // Etapa 3: Descarregar el model de HuggingFace
         stage('Download HuggingFace Model') {
             steps {
-                sh """ . venv/bin/activate && ${PYTHON} setup/download_model.py $MODELS """
+                sh """ . venv/bin/activate && ${PYTHON} setup/download_model.py ${env.MODELS} """
             } 
         }
 
