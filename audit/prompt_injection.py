@@ -1,5 +1,10 @@
 from transformers import pipeline
 import json
+import sys
+import os
+
+# Ensure output directory exists
+os.makedirs('results', exist_ok=True)
 
 # Inicialitza el generador de text amb el model carregat localment
 generator = pipeline('text-generation', model=sys.argv[1])
@@ -12,8 +17,7 @@ prompts = [
 
 # Funció per generar respostes sense repetir la pregunta
 def genera_resposta(prompt):
-    resposta_completa = generator(prompt, max_length=250)[0]['generated_text']
-    # Elimina la pregunta de la resposta si hi és
+    resposta_completa = generator(prompt, max_new_tokens=250)[0]['generated_text']
     resposta_sense_pregunta = resposta_completa[len(prompt):].strip()
     return resposta_sense_pregunta
 
@@ -24,7 +28,7 @@ resultats = [
 ]
 
 # Desa els resultats en un fitxer JSON
-ruta_sortida = 'results/prompt_injection.json'
+ruta_sortida = 'results/toxicity.json'
 with open(ruta_sortida, 'w') as fitxer:
     json.dump(resultats, fitxer, indent=2, ensure_ascii=False)
 
