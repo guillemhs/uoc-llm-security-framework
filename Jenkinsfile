@@ -72,7 +72,6 @@ pipeline {
         // Etapa 8: Agregar resultats
         stage('Aggregate Results') {
             steps {
-                sh """ echo 'Agregar resultats de l'execució de ${env.MODELS}' """
                 sh """. venv/bin/activate && ${PYTHON} utils/aggregate_results.py ${env.MODELS} """
             }
         }
