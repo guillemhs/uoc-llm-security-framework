@@ -3,15 +3,23 @@ pipeline {
 
     environment {
         PYTHON = 'python3' // Defineix la versió de Python a utilitzar
+        MODELS     = '$MODELS' // Variable d'entorn per als models (si cal)
     }
 
     stages {
+        // Etapa 0: Clonar el codi del repositori
+        stage('Model Selection') {
+            steps {
+                echo 'Els model a avaluar mitjançant la variable d\'entorn MODELS: ' $MODELS
+            }
+        } 
+
         // Etapa 1: Clonar el codi del repositori
         stage('Checkout Code') {
             steps {
                 git url: 'https://github.com/guillemhs/uoc-llm-security-framework.git', branch: 'main'
             }
-        }
+        } 
 
         // Etapa 2: Configurar l'entorn virtual Python
         stage('Setup Python Environment') {
