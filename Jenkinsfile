@@ -27,7 +27,6 @@ pipeline {
                 sh '${PYTHON} -m venv venv' // Crear l'entorn virtual
                 sh '. venv/bin/activate && pip install --upgrade pip' // Actualitzar pip
                 sh '. venv/bin/activate && pip install -r requirements.txt' // Instal·lar dependències
-                sh """ curl -LsSf https://hf.co/cli/install.sh | sh """
             }
         }
 
