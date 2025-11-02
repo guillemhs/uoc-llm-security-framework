@@ -41,6 +41,17 @@ pipeline {
             } 
         }
 
+        stage('Generate sample_image.png') {
+            steps {
+                sh '''
+                    source $VENV_PATH/bin/activate
+                    cd images
+                    python create_sample_image.py
+                    cd ..
+                '''
+            }
+        }
+
         // Etapa 4: Execució de la prova Image Guardrail
         stage('Run Image Guardrail') {
             steps {
