@@ -8,6 +8,8 @@ import sys
 load_dotenv()
 token = os.getenv("HUGGINGFACE_HUB_TOKEN")
 
+print(f"Valor del token: {token}")  # Mostra el valor carregat
+
 if not token:
     raise ValueError("No s'ha trobat el token HUGGINGFACE_HUB_TOKEN al fitxer .env")
 
