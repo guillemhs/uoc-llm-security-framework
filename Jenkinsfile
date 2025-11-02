@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         PYTHON = 'python3' // Defineix la versió de Python a utilitzar
+        HUGGINGFACE_HUB_TOKEN = credentials('huggingface-token-id') // id del secret
     }
 
     stages {
@@ -26,12 +27,14 @@ pipeline {
                 sh '${PYTHON} -m venv venv' // Crear l'entorn virtual
                 sh '. venv/bin/activate && pip install --upgrade pip' // Actualitzar pip
                 sh '. venv/bin/activate && pip install -r requirements.txt' // Instal·lar dependències
+                sh """ curl -LsSf https://hf.co/cli/install.sh | sh """
             }
         }
 
         // Etapa 3: Descarregar el model de HuggingFace
         stage('Download HuggingFace Model') {
             steps {
+                sh """ echo $HUGGINGFACE_HUB_TOKEN | hf auth login --token """ 
                 sh """ echo 'Descarregar el model de HuggingFace ${env.MODELS}' """
                 sh """ . venv/bin/activate && ${PYTHON} setup/download_model.py ${env.MODELS} """
             } 
