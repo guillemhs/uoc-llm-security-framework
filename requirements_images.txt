@@ -1,0 +1,4 @@
+pillow
+pytesseract
+transformers
+huggingface_hub[cli]

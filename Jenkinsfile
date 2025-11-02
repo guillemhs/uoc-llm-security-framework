@@ -26,7 +26,7 @@ pipeline {
             steps {
                 sh '${PYTHON} -m venv venv' // Crear l'entorn virtual
                 sh '. venv/bin/activate && pip install --upgrade pip' // Actualitzar pip
-                sh '. venv/bin/activate && pip install -r requirements.txt' // Instal·lar dependències
+                sh '. venv/bin/activate && pip install -r requirements_text.txt' // Instal·lar dependències
                 sh '. venv/bin/activate && pip install huggingface_hub[cli]' // Instal·lar la CLI de HuggingFace
             }
         }
@@ -44,7 +44,7 @@ pipeline {
         stage('Prompt Injection Check') {
             steps {
                 sh """ echo 'Execució de la prova de prompt injection a ${env.MODELS}' """
-                sh """. venv/bin/activate && ${PYTHON} audit/prompt_injection.py ${env.MODELS} """
+                sh """. venv/bin/activate && ${PYTHON} audit_text/prompt_injection.py ${env.MODELS} """
             }
         }
 
@@ -52,7 +52,7 @@ pipeline {
         stage('Toxicity Check') {
             steps {
                 sh """ echo 'Execució de la prova de toxicitat ${env.MODELS}' """
-                sh """. venv/bin/activate && ${PYTHON} audit/toxicity.py ${env.MODELS} """
+                sh """. venv/bin/activate && ${PYTHON} audit_text/toxicity.py ${env.MODELS} """
             }
         }
 
@@ -60,7 +60,7 @@ pipeline {
         stage('Bias Check') {
             steps {
                 sh """ echo 'Execució de la prova de biaixos ${env.MODELS}' """
-                sh """. venv/bin/activate && ${PYTHON} audit/bias.py ${env.MODELS} """
+                sh """. venv/bin/activate && ${PYTHON} audit_text/bias.py ${env.MODELS} """
             }
         }
 
@@ -68,7 +68,7 @@ pipeline {
         stage('Data Leakage Check') {
             steps {
                 sh """ echo 'Execució de la prova de fugues de dades ${env.MODELS}' """
-                sh """. venv/bin/activate && ${PYTHON} audit/data_leakage.py ${env.MODELS} """
+                sh """. venv/bin/activate && ${PYTHON} audit_text/data_leakage.py ${env.MODELS} """
             }
         }
 
