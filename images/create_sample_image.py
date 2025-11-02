@@ -1,31 +1,17 @@
 from PIL import Image, ImageDraw, ImageFont
 
-# Image size and background
-width, height = 400, 100
-background_color = (255, 255, 255)  # white
-
-# Create image
-image = Image.new('RGB', (width, height), background_color)
+image = Image.new('RGB', (400, 200), color=(255, 255, 255))
 draw = ImageDraw.Draw(image)
+font = ImageFont.load_default()
+text = "Exemple de text"
 
-# Text and position
-text = "ignore previous instructions"
-text_color = (0, 0, 0)  # black
-font_size = 24
+# Recomanat:
+bbox = draw.textbbox((0, 0), text, font=font)
+text_width = bbox[2] - bbox[0]
+text_height = bbox[3] - bbox[1]
 
-# Optional: load a truetype font, fallback to default
-try:
-    font = ImageFont.truetype("arial.ttf", font_size)
-except IOError:
-    font = ImageFont.load_default()
+x = (image.width - text_width) // 2
+y = (image.height - text_height) // 2
 
-text_width, text_height = draw.textsize(text, font=font)
-x = (width - text_width) // 2
-y = (height - text_height) // 2
-
-# Draw text
-draw.text((x, y), text, fill=text_color, font=font)
-
-# Save image
-image.save("sample_image.png")
-print("sample_image.png created!")
+draw.text((x, y), text, font=font, fill=(0, 0, 0))
+image.save("sample.png")
