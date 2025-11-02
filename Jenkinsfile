@@ -34,7 +34,7 @@ pipeline {
         // Etapa 3: Descarregar el model de HuggingFace
         stage('Download HuggingFace Model') {
             steps {
-                sh """ echo $HUGGINGFACE_HUB_TOKEN | hf auth login --token """ 
+                sh """ source ./venv/bin/activate && hf auth login --token $HUGGINGFACE_HUB_TOKEN """ 
                 sh """ echo 'Descarregar el model de HuggingFace ${env.MODELS}' """
                 sh """ . venv/bin/activate && ${PYTHON} setup/download_model.py ${env.MODELS} """
             } 
