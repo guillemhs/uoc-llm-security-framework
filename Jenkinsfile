@@ -27,7 +27,7 @@ pipeline {
                 sh '${PYTHON} -m venv venv' // Crear l'entorn virtual
                 sh '. venv/bin/activate && pip install --upgrade pip' // Actualitzar pip
                 sh '. venv/bin/activate && pip install -r requirements.txt' // Instal·lar dependències
-                sh 'pip install huggingface_hub[cli]' // Instal·lar la CLI de HuggingFace
+                sh '. venv/bin/activate && pip install huggingface_hub[cli]' // Instal·lar la CLI de HuggingFace
             }
         }
 
