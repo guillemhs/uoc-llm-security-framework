@@ -1,54 +1,103 @@
-Aquí tens un exemple de fitxer README en català per al repositori [uoc-llm-security-framework](https://github.com/guillemhs/uoc-llm-security-framework):
-
----
-
-# uoc-llm-security-framework
-
-Framework per a l'anàlisi de seguretat en models de llenguatge (LLM), desenvolupat com a part del Treball Final de Màster de la UOC.
+# UOC LLM Security Framework
 
 ## Descripció
 
-Aquest projecte té com a objectiu facilitar l'auditoria i la comprovació de vulnerabilitats en models de llenguatge, com ara GPT, mitjançant eines automatitzades i scripts personalitzats. El framework permet executar proves de seguretat, analitzar resultats i generar informes.
+Aquest repositori proporciona un framework per avaluar i protegir models de text-a-imatge (LLMs) mitjançant guardrails i proves automatitzades. Inclou codi per a la selecció de models, configuració d’entorn, generació d’imatges i auditories de seguretat, tot integrat amb CI/CD via Jenkins.
 
-## Característiques principals
+## Característiques
 
-- Auditoria automatitzada de models LLM.
-- Scripts d'anàlisi i comprovació de vulnerabilitats.
-- Generació d'informes de seguretat.
-- Integració amb Jenkins per a CI/CD (fitxer Jenkinsfile inclòs).
-- Estructura modular amb carpetes `audit`, `setup` i `utils`.
+- **Selecció de model:** Permet triar i descarregar models des de HuggingFace.
+- **Configuració automatitzada:** Gestió d’entorn virtual Python i dependències.
+- **Generació d’imatges:** Creació d’imatges a partir de prompts personalitzats.
+- **Guardrails de seguretat:** Auditories de prompts i imatges generades amb scripts personalitzats.
+- **Integració contínua:** Pipeline de Jenkins per a build, test i arxiu d’artefactes automàtic.
 
-## Requisits
+## Com començar
 
-- Python 3.8 o superior
-- Les dependències es troben al fitxer `requirements.txt`
+### Prerequisits
 
-## Instal·lació
+- Python 3.x
+- [Compte HuggingFace](https://huggingface.co/) i token d’API
+- Jenkins (per CI/CD)
+- Git
 
-1. Clona el repositori:
+### Instal·lació
+
+1. **Clona el repositori:**
    ```bash
    git clone https://github.com/guillemhs/uoc-llm-security-framework.git
+   cd uoc-llm-security-framework
    ```
-2. Instal·la les dependències:
+
+2. **Configura l’entorn Python:**
    ```bash
-   pip install -r requirements.txt
+   python3 -m venv venv
+   source venv/bin/activate
+   pip install --upgrade pip
+   pip install -r requirements_images.txt
+   pip install huggingface_hub[cli]
    ```
 
-## Ús
+3. **Autenticació HuggingFace:**
+   ```bash
+   hf auth login --token <EL_TEUTOKEN>
+   ```
 
-Consulta els scripts dins la carpeta `audit` per executar les diferents proves de seguretat. Pots personalitzar la configuració mitjançant els fitxers de la carpeta `setup`.
+### Ús
 
-## Estructura del repositori
+- **Descarregar un model:**
+  ```bash
+  python setup/download_model.py <NOM_DEL_MODEL>
+  ```
 
-- `audit/` — Scripts d'auditoria i proves de seguretat.
-- `setup/` — Fitxers de configuració i inicialització.
-- `utils/` — Funcions auxiliars.
-- `requirements.txt` — Llista de dependències.
-- `Jenkinsfile` — Integració amb Jenkins per a CI/CD.
+- **Generar una imatge de mostra:**
+  ```bash
+  cd images
+  python create_sample_image.py --prompt "El teu prompt aquí" --output "imatge_generada.png"
+  cd ..
+  ```
+
+- **Executar guardrails:**
+  ```bash
+  python audit_images/prompt_guardrail.py "El teu prompt aquí"
+  python audit_images/image_guardrail.py "images/imatge_generada.png"
+  ```
+
+### Pipeline Jenkins
+
+El repositori inclou un Jenkinsfile per automatitzar els builds:
+
+- **Etapes:**
+  - Selecció de model
+  - Checkout de codi
+  - Configuració de l’entorn Python
+  - Descarrega del model
+  - Generació d’imatges
+  - Auditories de guardrails
+  - Arxiu d’imatges com a artefactes del build
+
+Després de cada build, podràs descarregar les imatges generades des de Jenkins com a artefactes.
+
+## Estructura del projecte
+
+```
+.
+├── images/
+│   ├── create_sample_image.py
+│   └── generated_image_*.png
+├── audit_images/
+│   ├── prompt_guardrail.py
+│   └── image_guardrail.py
+├── setup/
+│   └── download_model.py
+├── requirements_images.txt
+├── Jenkinsfile
+└── README.md
+```
 
 ## Contribució
 
-Les contribucions són benvingudes. Pots obrir issues o enviar pull requests amb millores o correccions.
+Les pull requests són benvingudes. Si vols fer canvis importants, obre primer una issue per discutir-los.
 
 ## Llicència
 
