@@ -1,6 +1,17 @@
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import os
 import sys
+from dotenv import load_dotenv
+from huggingface_hub import login
+
+# Carrega variables del fitxer .env
+load_dotenv()
+token = os.getenv("HUGGINGFACE_HUB_TOKEN")
+
+if not token:
+    raise ValueError("No s'ha trobat el token HUGGINGFACE_HUB_TOKEN al fitxer .env")
+
+login(token)
 
 CACHE_DIR = "./models_cache"  # Pots canviar-ho o deixar-ho com None
 
