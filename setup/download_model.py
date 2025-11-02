@@ -1,8 +1,8 @@
 from transformers import AutoModelForCausalLM, AutoTokenizer
-import os
-import sys
 from dotenv import load_dotenv
 from huggingface_hub import login
+import os
+import sys
 
 # Carrega variables del fitxer .env
 load_dotenv()
