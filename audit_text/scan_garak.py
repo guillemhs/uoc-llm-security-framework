@@ -5,7 +5,7 @@ import garak
 model_id = sys.argv[1]  # p. ex. "gpt2" o "/camí/al/model/local"
 
 # Executa l'anàlisi Garak sobre el model
-resultats = scan_garak.scan(f"huggingface/{model_id}")
+resultats = garak.scan(f"huggingface/{model_id}")
 
 # Desa els resultats en un fitxer JSON
 import json
