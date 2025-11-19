@@ -76,7 +76,7 @@ pipeline {
         stage('Garak Check') {
             steps {
                 sh """ echo 'Execució de la prova de Garak a ${env.MODELS}' """
-                sh """. venv/bin/activate && garak --model huggingface/${env.MODELS} --output resultats_garak.json """
+                sh """. venv/bin/activate && python run_garak.py ${env.MODELS} --output resultats_garak.json """
             }
         }
 
