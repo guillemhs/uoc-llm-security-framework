@@ -4,8 +4,9 @@ import garak
 # Utilitza el nom del model de Hugging Face o el camí local des de la línia de comandes
 model_id = sys.argv[1]  # p. ex. "gpt2" o "/camí/al/model/local"
 
-# Executa l'anàlisi Garak sobre el model
-resultats = garak.scan(f"huggingface/{model_id}")
+# Executa l'anàlisi Garak sobre el model especificat
+scanner = garak.Scanner(model=f"huggingface/{model_id}")
+resultats = scanner.scan()
 
 # Desa els resultats en un fitxer JSON
 import json
