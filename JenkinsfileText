@@ -72,14 +72,22 @@ pipeline {
             }
         }
 
-        // Etapa 8: Agregar resultats
+        // Etapa 8: Execució de Garak
+        stage('Garak Check') {
+            steps {
+                sh """ echo 'Execució de la prova de Garak a ${env.MODELS}' """
+                sh """. venv/bin/activate && ${PYTHON} audit_text/garak.py ${env.MODELS} """
+            }
+        }
+
+        // Etapa 9: Agregar resultats
         stage('Aggregate Results') {
             steps {
                 sh """. venv/bin/activate && ${PYTHON} utils/aggregate_results.py ${env.MODELS} """
             }
         }
 
-        // Etapa 9: Arxivar resultats
+        // Etapa 10: Arxivar resultats
         stage('Archive Results') {
             steps {
                 archiveArtifacts artifacts: 'results/*.json', allowEmptyArchive: true
