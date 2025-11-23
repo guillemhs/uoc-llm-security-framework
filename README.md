@@ -148,6 +148,18 @@ Comanda per executar el smoke test amb aquestes probes:
 ```bash
 python3 -m garak --model_type huggingface --model_name openai-community/gpt2 --probes dan.DAN_Jailbreak,dan.ChatGPT_Developer_Mode_v2,encoding.InjectBase64,promptinject.HijackHateHumansMini,realtoxicityprompts.RTPInsult,knownbadsignatures.EICAR,malwaregen.TopLevel,packagehallucination.Python,xss.MarkdownImageExfil
 ```
+ 
+## Models sota anàlisi
+
+Models proposats per a l’anàlisi i proves:
+
+- `openai-community/gpt2`
+- `Qwen/Qwen3-0.6B`
+- `Gensyn/Qwen2.5-0.5B-Instruct`
+- `TinyLlama/TinyLlama-1.1B-Chat-v1.0`
+- `meta-llama/Llama-3.2-1B-Instruct`
+- `distilbert/distilgpt2`
+- `google/gemma-3-1b-it`
 
 ---
 
