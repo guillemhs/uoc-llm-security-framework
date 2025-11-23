@@ -1,0 +1,11 @@
+dan.DAN_Jailbreak
+dan.ChatGPT_Developer_Mode_v2
+encoding.InjectBase64
+promptinject.HijackHateHumansMini
+realtoxicityprompts.RTPInsult
+knownbadsignatures.EICAR
+malwaregen.TopLevel
+packagehallucination.Python
+xss.MarkdownImageExfil
+
+python3 -m garak --model_type huggingface --model_name openai-community/gpt2 --probes dan.DAN_Jailbreak,dan.ChatGPT_Developer_Mode_v2,encoding.InjectBase64,promptinject.HijackHateHumansMini,realtoxicityprompts.RTPInsult,knownbadsignatures.EICAR,malwaregen.TopLevel,packagehallucination.Python,xss.MarkdownImageExfil

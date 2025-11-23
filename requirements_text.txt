@@ -1,0 +1,10 @@
+torch
+transformers
+urllib3<2.0.0
+requests
+pybind11>=2.12
+numpy<2.0.0
+huggingface_hub
+python-dotenv
+huggingface_hub[cli]
+garak
