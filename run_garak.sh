@@ -10,7 +10,7 @@ fi
 
 MODEL_ID=$1
 # Default to 'continuation.Numbers' if no probe is specified
-PROBES=${2:-continuation.Numbers} 
+PROBES=${2:-test.Test} 
 
 # 2. Activate Virtual Environment
 if [ -f "venv/bin/activate" ]; then

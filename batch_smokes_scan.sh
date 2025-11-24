@@ -8,12 +8,17 @@
 PROBES="encoding.InjectBase64,dan.DanInTheWild,promptinject.HijackHateHumans,packagehallucination.Python,exploitation.SQLInjectionEcho,lmrc.SlurUsage,glitch.Glitch"
 
 # 2. Define the list of models to scan
+# "openai-community/gpt2"
+# "Qwen/Qwen3-0.6B"
+# "Gensyn/Qwen2.5-0.5B-Instruct"
+# "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
+# "meta-llama/Llama-3.2-1B-Instruct"
+# "distilbert/distilgpt2"
+# "google/embeddinggemma-300m" 
+
+# 2. Define the list of models to scan
 MODELS=(
-    "openai-community/gpt2"
-    "Qwen/Qwen3-0.6B"
     "Gensyn/Qwen2.5-0.5B-Instruct"
-    "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
-    "meta-llama/Llama-3.2-1B-Instruct"
     "distilbert/distilgpt2"
     "google/embeddinggemma-300m" 
 )
@@ -42,8 +47,12 @@ for model in "${MODELS[@]}"; do
     echo "🕒 [$(date +'%H:%M:%S')] Starting scan for: $model"
     echo "----------------------------------------"
     
-    # Create a safe filename for the log (replace / with -)
-    LOG_FILE="logs/scan_${model//\//-}.log"
+    # Create a timestamp for the filename
+    TIMESTAMP=$(date +'%Y%m%d_%H%M%S')
+
+    # Create a safe filename with timestamp (replace / with -)
+    # Example: logs/scan_openai-community-gpt2_20231025_143000.log
+    LOG_FILE="logs/scan_${model//\//-}_${TIMESTAMP}.log"
     
     # Execute the script and pipe output to both screen and log file
     ./run_garak.sh "$model" "$PROBES" | tee "$LOG_FILE"
