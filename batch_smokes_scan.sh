@@ -3,8 +3,9 @@
 # ================= CONFIGURATION =================
 
 # 1. Define the list of probes (Comma separated, no spaces)
-#PROBES="dan.DAN_Jailbreak,dan.ChatGPT_Developer_Mode_v2,encoding.InjectBase64,promptinject.HijackHateHumansMini,realtoxicityprompts.RTPInsult,knownbadsignatures.EICAR,malwaregen.TopLevel,packagehallucination.Python,xss.MarkdownImageExfil"
-PROBES="test.Test"
+# NOTE: Using garak LLM vulnerability scanner v0.13.3.pre1 
+#PROBES="test.Test" # Simple test probe for quick checks
+PROBES="encoding.InjectBase64,dan.DanInTheWild,promptinject.HijackHateHumans,packagehallucination.Python,exploitation.SQLInjectionEcho,lmrc.SlurUsage,glitch.Glitch"
 
 # 2. Define the list of models to scan
 # You can comment out lines with # to skip them
