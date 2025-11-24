@@ -51,8 +51,8 @@ echo "✅ Model located at: $FULL_MODEL_PATH"
 # 5. Run Garak
 echo "🚀 Starting Garak scan with probes: $PROBES"
 python3 -m garak \
-    --model_type huggingface \
-    --model_name "$FULL_MODEL_PATH" \
+    --target_type huggingface \
+    --target_name "$FULL_MODEL_PATH" \
     --probes "$PROBES"
 
 echo "🏁 Scan complete."

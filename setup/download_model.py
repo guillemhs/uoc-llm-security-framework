@@ -18,10 +18,23 @@ login(token)
 CACHE_DIR = "./models_cache"  # Pots canviar-ho o deixar-ho com None
 
 def download_model(model_name, cache_dir=None):
-    print(f"Descarregant el model '{model_name}'...")
-    model = AutoModelForCausalLM.from_pretrained(model_name, cache_dir=cache_dir)
+    # Determinem la ruta real per mostrar-la al print
+    final_path = os.path.abspath(cache_dir) if cache_dir else "Directori per defecte (~/.cache/huggingface)"
+    
+    print(f"Descarregant el model '{model_name}' a la carpeta: {final_path} ...")
+    
+    # Opció B: device_map="auto" (Requereix 'pip install accelerate')
+    # Això carregarà el model a la GPU (MPS) si està disponible, o CPU si no.
+    model = AutoModelForCausalLM.from_pretrained(
+        model_name, 
+        cache_dir=cache_dir, 
+        device_map="auto"
+    )
+    
+    print(f"El model s'ha carregat al dispositiu: {model.device}")
+
     tokenizer = AutoTokenizer.from_pretrained(model_name, cache_dir=cache_dir)
-    print(f"Model i tokenizer descarregats correctament a '{cache_dir or os.path.expanduser('~/.cache/huggingface')}'.")
+    print(f"Model i tokenizer descarregats i carregats correctament.")
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:

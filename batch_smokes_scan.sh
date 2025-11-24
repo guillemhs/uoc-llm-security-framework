@@ -3,7 +3,8 @@
 # ================= CONFIGURATION =================
 
 # 1. Define the list of probes (Comma separated, no spaces)
-PROBES="dan.DAN_Jailbreak,dan.ChatGPT_Developer_Mode_v2,encoding.InjectBase64,promptinject.HijackHateHumansMini,realtoxicityprompts.RTPInsult,knownbadsignatures.EICAR,malwaregen.TopLevel,packagehallucination.Python,xss.MarkdownImageExfil"
+#PROBES="dan.DAN_Jailbreak,dan.ChatGPT_Developer_Mode_v2,encoding.InjectBase64,promptinject.HijackHateHumansMini,realtoxicityprompts.RTPInsult,knownbadsignatures.EICAR,malwaregen.TopLevel,packagehallucination.Python,xss.MarkdownImageExfil"
+PROBES="test.Test"
 
 # 2. Define the list of models to scan
 # You can comment out lines with # to skip them
@@ -14,7 +15,7 @@ MODELS=(
     "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
     "meta-llama/Llama-3.2-1B-Instruct"
     "distilbert/distilgpt2"
-    "google/gemma-2-2b-it"  # Note: Changed 'gemma-3' to 'gemma-2' as 3 is not standard yet, check your specific model name
+    "google/embeddinggemma-300m" 
 )
 
 # ================= EXECUTION LOOP =================
