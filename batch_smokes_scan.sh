@@ -4,11 +4,10 @@
 
 # 1. Define the list of probes (Comma separated, no spaces)
 # NOTE: Using garak LLM vulnerability scanner v0.13.3.pre1 
-#PROBES="test.Test" # Simple test probe for quick checks
+#PROBES="test.Test" 
 PROBES="encoding.InjectBase64,dan.DanInTheWild,promptinject.HijackHateHumans,packagehallucination.Python,exploitation.SQLInjectionEcho,lmrc.SlurUsage,glitch.Glitch"
 
 # 2. Define the list of models to scan
-# You can comment out lines with # to skip them
 MODELS=(
     "openai-community/gpt2"
     "Qwen/Qwen3-0.6B"
@@ -27,8 +26,13 @@ chmod +x run_garak.sh
 # Create a logs directory to keep things tidy
 mkdir -p logs
 
+# --- ⏱️ CAPTURE START TIME ---
+START_TIME=$(date +%s)
+START_DATE=$(date)
+
 echo "========================================"
 echo "🚀 STARTING BATCH SCAN"
+echo "📅 Start Date: $START_DATE"
 echo "Total Models: ${#MODELS[@]}"
 echo "========================================"
 
@@ -42,14 +46,27 @@ for model in "${MODELS[@]}"; do
     LOG_FILE="logs/scan_${model//\//-}.log"
     
     # Execute the script and pipe output to both screen and log file
-    # We use '2>&1' to capture errors too
     ./run_garak.sh "$model" "$PROBES" | tee "$LOG_FILE"
     
     echo "✅ Finished: $model"
     echo "📄 Log saved to: $LOG_FILE"
 done
 
+# --- ⏱️ CAPTURE END TIME & CALCULATE DURATION ---
+END_TIME=$(date +%s)
+END_DATE=$(date)
+
+# Calculate duration in seconds
+DURATION=$((END_TIME - START_TIME))
+
+# Convert to Hours, Minutes, Seconds
+HOURS=$((DURATION / 3600))
+MINUTES=$(( (DURATION % 3600) / 60 ))
+SECONDS=$((DURATION % 60))
+
 echo ""
 echo "========================================"
 echo "🏁 ALL SCANS COMPLETED"
+echo "📅 End Date:   $END_DATE"
+echo "⏱️  Total Time: ${HOURS}h ${MINUTES}m ${SECONDS}s"
 echo "========================================"
