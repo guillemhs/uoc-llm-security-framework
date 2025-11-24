@@ -1,10 +1,10 @@
-torch
 transformers
-urllib3<2.0.0
+urllib3 
 requests
-pybind11>=2.12
-numpy<2.0.0
+pybind11 
+numpy 
 huggingface_hub
 python-dotenv
 huggingface_hub[cli]
+torch
 garak
