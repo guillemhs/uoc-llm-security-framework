@@ -1,0 +1,76 @@
+pipeline {
+    agent any
+
+    environment {
+        PYTHON = 'python3' // Defineix la versió de Python a utilitzar
+        HUGGINGFACE_HUB_TOKEN = credentials('huggingface-token-id') // id del secret
+    }
+
+    stages {
+        // Etapa 0: Selecció del model
+        stage('Model Selection') {
+            steps {
+                sh "echo 'Model: ${env.MODELS}'"
+            }
+        } 
+
+        // Etapa 1: Clonar el codi del repositori
+        stage('Checkout Code') {
+            steps {
+                git url: 'https://github.com/guillemhs/uoc-llm-security-framework.git', branch: 'main'
+            }
+        } 
+
+        // Etapa 2: Configurar l'entorn virtual Python
+        stage('Setup Python Environment') {
+            steps {
+                sh '${PYTHON} -m venv venv' // Crear l'entorn virtual
+                sh '. venv/bin/activate && pip install --upgrade pip' // Actualitzar pip
+                sh '. venv/bin/activate && pip install -r requirements_text.txt' // Instal·lar dependències
+                sh '. venv/bin/activate && pip install huggingface_hub[cli]' // Instal·lar la CLI de HuggingFace
+            }
+        }
+
+        // Etapa 3: Descarregar el model de HuggingFace
+        stage('Prepare HuggingFace Environment') {
+            steps {
+                sh """ source ./venv/bin/activate && hf auth login --token $HUGGINGFACE_HUB_TOKEN """ 
+                sh """ export HUGGINGFACE_HUB_TOKEN=$HUGGINGFACE_HUB_TOKEN """
+                sh """ echo 'HUGGINGFACE_HUB_TOKEN: $HUGGINGFACE_HUB_TOKEN' """
+            } 
+        }
+
+        // Etapa 4: Execució de Garak Smoke Test
+        stage('Garak Check') {
+            steps {
+                sh """ echo 'Execució de la prova SMOKE de Garak a ${env.MODELS}' """
+                sh """ echo 'Probes: ${PROBES}' """
+                sh """. venv/bin/activate && ./run_garak_smoke.sh ${env.MODELS} test.Test """
+            }
+        }
+
+        // Etapa 5: Agregar resultats
+        stage('Aggregate Results') {
+            steps {
+                sh """. venv/bin/activate && ${PYTHON} utils/aggregate_results.py ${env.MODELS} """
+            }
+        }
+
+        // Etapa 6: Arxivar resultats
+        stage('Archive Results') {
+            steps {
+                archiveArtifacts artifacts: 'results/*.json', allowEmptyArchive: true
+            }
+        }
+    }
+
+    // Post-execució: enviar notificacions o netejar recursos
+    post {
+        success {
+            echo """Pipeline per ${env.MODELS} completat amb èxit  """
+        }
+        failure {
+            echo 'El pipeline ha fallat. Revisa els logs per trobar el problema.'
+        }
+    }
+}
