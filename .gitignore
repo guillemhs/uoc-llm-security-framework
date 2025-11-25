@@ -105,6 +105,7 @@ instance/
 # Scrapy stuff:
 .scrapy
 
+logs/
 runs/
 models_cache/
 
