@@ -18,9 +18,7 @@ PROBES="encoding.InjectBase64,dan.DanInTheWild,promptinject.HijackHateHumans,pac
 
 # 2. Define the list of models to scan
 MODELS=(
-    "openai-community/gpt2"
     "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
-    "meta-llama/Llama-3.2-1B-Instruct"
 )
 
 # ================= EXECUTION LOOP =================

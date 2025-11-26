@@ -22,3 +22,6 @@ pip install -r requirements.txt
 
 # Test the installation
 ./batch_test_scan.sh
+
+# Prepare for Text-to-Image
+pip install diffusers transformers accelerate
