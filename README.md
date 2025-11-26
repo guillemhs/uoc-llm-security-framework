@@ -159,11 +159,6 @@ PRs benvingudes. Obre una issue per a canvis majors. Inclou exemples i tests mí
 ---
 
 ## 📄 Llicència i autoria
-Codi creat per Guillem Hernández Sola. Consulta el repositori per la llicència i autoria.
-
-...existing code...
-
-## 📄 Llicència i autoria
 Aquest codi és alliberat al domini públic per [Guillem Hernández Sola](https://www.linkedin.com/in/guillemhs/) sota llicència Creative Commons Reconeixement-NoComercial 4.0 Internacional (CC BY-NC 4.0).  
 
 El README ha estat redactat per a aquest repositori i segueix la mateixa llicència.
