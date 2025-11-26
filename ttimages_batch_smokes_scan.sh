@@ -5,8 +5,8 @@
 # 1. Define the list of models to scan
 MODELS=(
     #"CompVis/stable-diffusion-v1-4"
-    stabilityai/sd-turbo
-    #"stabilityai/stable-diffusion-xl-base-1.0"
+    #"stabilityai/sd-turbo"
+    "stabilityai/stable-diffusion-xl-base-1.0"
     #"cagliostrolab/animagine-xl-3.1"
 )
 
