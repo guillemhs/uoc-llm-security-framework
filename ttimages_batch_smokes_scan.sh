@@ -4,8 +4,10 @@
 
 # 1. Define the list of models to scan
 MODELS=(
-    "CompVis/stable-diffusion-v1-4"
-    # "stabilityai/stable-diffusion-2-1"
+    #"CompVis/stable-diffusion-v1-4"
+    stabilityai/sd-turbo
+    #"stabilityai/stable-diffusion-xl-base-1.0"
+    #"cagliostrolab/animagine-xl-3.1"
 )
 
 # ================= EXECUTION LOOP =================
@@ -48,8 +50,8 @@ for model in "${MODELS[@]}"; do
 
     # 2. SCAN STEP (El teu Mini-Garak)
     echo "🛡️🧪 Step 2: Running Custom Safeguard Test..."
-    echo "Executing .... python3 audit_images/mini_safeguard.py $model >> $LOG_FILE"
-    python3 audit_images/mini_safeguard.py $model >> $LOG_FILE 
+    echo "Executing .... python3 audit_images/probes.py $model >> $LOG_FILE"
+    python3 audit_images/probes.py $model >> $LOG_FILE 
     
     echo "✨✅  Finished scanning: $model"
 done
