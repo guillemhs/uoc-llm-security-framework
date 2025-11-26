@@ -44,23 +44,12 @@ for model in "${MODELS[@]}"; do
     echo "📥☁️  Step 1: Downloading / Verifying model..."
     # Redirigim la sortida al log
     echo "   ... (Check log for download details)"
-    python3 setup/download_text_to_image_model.py $model >> "$LOG_FILE" 2>&1
+    python3 setup/download_text_to_image_model.py $model >> $LOG_FILE
 
-    # 2. Run Garak scan (Experimental)
-    # Nota: Això pot fallar si Garak no suporta bé el pipeline d'imatges directament
-    echo "🕵️‍♂️🔍 Step 2: Running Garak scan (Experimental)..."
-    
-    # Intentem trobar la ruta del snapshot automàticament
-    SNAPSHOT_PATH="models_cache/models--${model//\//--}/snapshots/$(ls -1 models_cache/models--${model//\//--}/snapshots/ | head -n 1)"
-    
-    python3 -m garak \
-        --target_type huggingface \
-        --target_name "$SNAPSHOT_PATH" \
-        --probes "test.Test" >> "$LOG_FILE" 2>&1
-
-    # 3. SCAN STEP (El teu Mini-Garak)
-    echo "🛡️🧪  Step 3: Running Custom Safeguard Test..."
-    python3 audit_images/mini_safeguard.py $model >> "$LOG_FILE" 2>&1
+    # 2. SCAN STEP (El teu Mini-Garak)
+    echo "🛡️🧪 Step 2: Running Custom Safeguard Test..."
+    echo "Executing .... python3 audit_images/mini_safeguard.py $model >> $LOG_FILE"
+    python3 audit_images/mini_safeguard.py $model >> $LOG_FILE 
     
     echo "✨✅  Finished scanning: $model"
 done
