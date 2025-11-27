@@ -4,6 +4,7 @@ import os
 import sys
 import time
 import traceback
+import gc  # <--- Necessari per netejar la RAM
 
 # ==============================================================================
 # 1. CONFIGURACIÓ I CÀRREGA DEL MODEL
@@ -28,7 +29,7 @@ print(f"   • MODEL_ID: {MODEL_ID}")
 print(f"   • CACHE_DIR: {os.path.abspath(CACHE_DIR)}")
 print(f"   • DEVICE: {DEVICE}")
 print(f"   • TORCH_DTYPE: {DTYPE}")
-print(f"   • SAMPLES PER PROMPT: {NUM_SAMPLES}") # Nova traça
+print(f"   • SAMPLES PER PROMPT: {NUM_SAMPLES}")
 if DEVICE == "cuda":
     try:
         gpu_name = torch.cuda.get_device_name(0)
@@ -48,7 +49,13 @@ try:
         use_safetensors=True
     )
     pipe = pipe.to(DEVICE)
-    pipe.set_progress_bar_config(disable=True) # Desactivem barra per no embrutar logs
+    
+    # --- FIX DE MEMÒRIA 1: Attention Slicing ---
+    # Això redueix dràsticament l'ús de memòria a canvi d'una pèrdua mínima de velocitat.
+    print("   🔧 Activant 'Attention Slicing' per estalviar memòria...")
+    pipe.enable_attention_slicing()
+    
+    pipe.set_progress_bar_config(disable=True) 
     t_load = time.time() - t0_load
     print(f"✅ Model carregat correctament en {t_load:.2f}s.")
 except Exception as e:
@@ -163,7 +170,12 @@ def run_security_test(prompts):
         for attempt in range(NUM_SAMPLES):
             t0 = time.time()
             try:
-                # Generem (sense seed fixa per defecte per tenir varietat)
+                # --- FIX DE MEMÒRIA 2: Neteja preventiva ---
+                gc.collect()
+                if DEVICE == "mps": torch.mps.empty_cache()
+                elif DEVICE == "cuda": torch.cuda.empty_cache()
+
+                # Generem
                 output = pipe(prompt_text, num_inference_steps=15)
                 dt = time.time() - t0
                 accumulated_time += dt
@@ -184,11 +196,24 @@ def run_security_test(prompts):
                 
                 print(f"      Attempt {attempt+1}/{NUM_SAMPLES}: {status_icon} ({dt:.2f}s)")
 
+                # --- FIX DE MEMÒRIA 3: Neteja post-generació ---
+                del output
+                gc.collect()
+                if DEVICE == "mps": torch.mps.empty_cache()
+                elif DEVICE == "cuda": torch.cuda.empty_cache()
+
             except Exception as e:
                 dt = time.time() - t0
                 accumulated_time += dt
-                print(f"      Attempt {attempt+1}/{NUM_SAMPLES}: ❌ ERROR ({e.__class__.__name__})")
-                # En cas d'error no comptem com a NSFW detectat, però tampoc com a generat net.
+                
+                # Gestió específica d'errors de memòria
+                err_str = str(e).lower()
+                if "out of memory" in err_str or "mps backend" in err_str:
+                    print(f"      Attempt {attempt+1}/{NUM_SAMPLES}: 💾 OOM (Memòria Plena) - Intentant recuperar...")
+                    gc.collect()
+                    if DEVICE == "mps": torch.mps.empty_cache()
+                else:
+                    print(f"      Attempt {attempt+1}/{NUM_SAMPLES}: ❌ ERROR ({e.__class__.__name__})")
 
         # --- AVALUACIÓ FINAL DEL PROMPT ---
         avg_time = accumulated_time / NUM_SAMPLES
@@ -214,13 +239,6 @@ def run_security_test(prompts):
 
         icon = "✅ PASS" if test_passed else "❌ FAIL"
         print(f"   • Resultat Global: {icon} | {status_msg}")
-
-        if DEVICE == "cuda":
-            try:
-                torch.cuda.synchronize()
-                end_mem = torch.cuda.memory_allocated() / (1024**2)
-                # print(f"   • Memòria CUDA després: {end_mem:.1f} MB")
-            except Exception: pass
 
         failures += (not test_passed)
         results.append({
