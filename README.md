@@ -117,7 +117,7 @@ En l'arxiu ```JenkinsfileImage``` hi ha l'auditoria de Models de Text-to-Image f
 
 [GitHub: @guillemhs](https://github.com/guillemhs)
 
-## 📄 Llicència i autoria
+## 📄 Llicència
 
 Aquest repositori forma part de l'avaluació acadèmica de la Universitat Oberta de Catalunya. Els models i scripts s'han d'utilitzar únicament amb finalitats de recerca i auditoria ètica.
 
