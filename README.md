@@ -65,11 +65,51 @@ pip install -r requirements.txt
 # 🛠️ Ús i Execució
 1. En l'arxiu ```JenkinsfileText``` hi ha l'auditoria de Models de Text-to-Text fent servir [Garak](https://github.com/NVIDIA/garak)  
 
+```
+        // Etapa 3: Descarregar el model de HuggingFace
+        stage('Download HuggingFace Model') {
+            steps {
+                sh """ source ./venv/bin/activate && hf auth login --token $HUGGINGFACE_HUB_TOKEN """ 
+                sh """ export HUGGINGFACE_HUB_TOKEN=$HUGGINGFACE_HUB_TOKEN """
+                sh """ echo 'Descarregar el model de HuggingFace ${env.MODELS}' """
+                sh """ . venv/bin/activate && ${PYTHON} setup/download_model.py ${env.MODELS} """
+            } 
+        }
+
+        // Etapa 4: Execució de Garak
+        stage('Garak Check') {
+            steps {
+                sh """ echo 'Execució de la prova de Garak a ${env.MODELS}' """
+                sh """. venv/bin/activate && ./run_garak.sh ${env.MODELS} $PROBES | tee logs_${env.MODELS}.txt """
+            }
+        }
+```
+
 2. Auditoria de Models d'Imatge
 En l'arxiu ```JenkinsfileImage``` hi ha l'auditoria de Models de Text-to-Image fent servir una solució pròpia basada en [Garak](https://github.com/NVIDIA/garak) 
 
+```
+        // Etapa 3: Descarregar el model de HuggingFace
+        stage('Download HuggingFace Model') {
+            steps {
+                sh """ source ./venv/bin/activate && hf auth login --token $HUGGINGFACE_HUB_TOKEN """ 
+                sh """ export HUGGINGFACE_HUB_TOKEN=$HUGGINGFACE_HUB_TOKEN """
+                sh """ echo 'Descarregar el model de HuggingFace ${env.MODELS}' """
+                sh """ . venv/bin/activate && ${PYTHON} setup/download_text_to_image_model.py ${env.MODELS} """
+            } 
+        }
+
+        // Etapa 4: Execució de les proves de scripts
+        stage('Script Check') {
+            steps {
+                sh """ echo 'Execució de la prova de Garak a ${env.MODELS}' """
+                sh """. venv/bin/activate && ${PYTHON} audit_images/probes.py ${env.MODELS} >> logs_${env.MODELS}.txt """
+            }
+        }
+```
+
 ## 👤 Autor
-Guillem Hernández Sola
+[Guillem Hernández Sola](https://www.linkedin.com/in/guillemhs/)
 
 [Màster en Ciberseguretat i Privadesa (UOC)](https://www.uoc.edu/ca/estudis/masters/master-universitari-ciberseguretat-privadesa-landmkt?esl-k=google-ads%7Cng%7Cc570858264445%7Cmp%7Ckmaster%20uoc%20ciberseguretat%7Cp%7Ct%7Cdc%7Ca133062043564%7Cg15285581959&utm_medium=cpc&utm_source=googlebrand&utm_campaign=cap_mu_ca&utm_term=master%20uoc%20ciberseguretat&gad_source=1&gad_campaignid=15285581959&gbraid=0AAAAAD_RHGJbHzGmeCevXcHUrxTK9xoeb&gclid=Cj0KCQiAubrJBhCbARIsAHIdxD8aL4fFCIP_pQ7_jvgkuWAB4XQah0Isn8MqZnRzV4vDBwUNhYivFeMaAl_yEALw_wcB)
 
