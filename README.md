@@ -7,7 +7,7 @@
 
 Aquest repositori conté el codi font, els scripts d'auditoria i els resultats experimentals desenvolupats com a part del **Treball Final de Màster (TFM)** del Màster Universitari en Ciberseguretat i Privadesa de la **Universitat Oberta de Catalunya (UOC)**.
 
-**Títol del Projecte:** Anàlisi de riscos i disseny d'un framework de seguretat per a la implementació de GenAI en entorns empresarials.
+**Títol del Projecte:** Framework de comprovació de ciberseguretat per a models de llenguatge de gran escala (LLMs) abans del seu llançament de disponibilitat general.
 
 ## 📋 Descripció del Projecte
 
