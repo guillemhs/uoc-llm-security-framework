@@ -43,19 +43,19 @@ venv
 ```
 
 ## Configuració de l'entorn
-# Clonar el repositori
+### Clonar el repositori
 ```
 git clone https://github.com/guillemhs/uoc-llm-security-framework.git
 cd uoc-llm-security-framework
 ```
 
-# Crear un entorn virtual
+### Crear un entorn virtual
 ```
 python -m venv venv
 source venv/bin/activate  # En Windows: venv\Scripts\activate
 ```
 
-# Instal·lar dependències
+### Instal·lar dependències
 ```
 pip install -r requirements.txt
 ```
@@ -64,7 +64,7 @@ pip install -r requirements.txt
 
 *NOTA 2*: Es necessita un *HUGGINGFACE_HUB_TOKEN* perquè descarregar automàticament els models.
 
-# 🛠️ Ús i Execució
+### 🛠️ Ús i Execució
 1. En l'arxiu ```JenkinsfileText``` hi ha l'auditoria de Models de Text-to-Text fent servir [Garak](https://github.com/NVIDIA/garak)  
 
 ```
