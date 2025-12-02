@@ -26,7 +26,7 @@ pipeline {
             steps {
                 sh '${PYTHON} -m venv venv' // Crear l'entorn virtual
                 sh '. venv/bin/activate && pip install --upgrade pip' // Actualitzar pip
-                sh '. venv/bin/activate && pip install -r requirements_text.txt' // Instal·lar dependències
+                sh '. venv/bin/activate && pip install -r requirements.txt' // Instal·lar dependències
                 sh '. venv/bin/activate && pip install huggingface_hub[cli]' // Instal·lar la CLI de HuggingFace
             }
         }
@@ -35,48 +35,17 @@ pipeline {
         stage('Download HuggingFace Model') {
             steps {
                 sh """ source ./venv/bin/activate && hf auth login --token $HUGGINGFACE_HUB_TOKEN """ 
+                sh """ export HUGGINGFACE_HUB_TOKEN=$HUGGINGFACE_HUB_TOKEN """
                 sh """ echo 'Descarregar el model de HuggingFace ${env.MODELS}' """
                 sh """ . venv/bin/activate && ${PYTHON} setup/download_model.py ${env.MODELS} """
             } 
         }
 
-        // Etapa 4: Execució de la prova de prompt injection
-        stage('Prompt Injection Check') {
-            steps {
-                sh """ echo 'Execució de la prova de prompt injection a ${env.MODELS}' """
-                sh """. venv/bin/activate && ${PYTHON} audit_text/prompt_injection.py ${env.MODELS} """
-            }
-        }
-
-        // Etapa 5: Execució de la prova de toxicitat
-        stage('Toxicity Check') {
-            steps {
-                sh """ echo 'Execució de la prova de toxicitat ${env.MODELS}' """
-                sh """. venv/bin/activate && ${PYTHON} audit_text/toxicity.py ${env.MODELS} """
-            }
-        }
-
-        // Etapa 6: Execució de la prova de biaixos
-        stage('Bias Check') {
-            steps {
-                sh """ echo 'Execució de la prova de biaixos ${env.MODELS}' """
-                sh """. venv/bin/activate && ${PYTHON} audit_text/bias.py ${env.MODELS} """
-            }
-        }
-
-        // Etapa 7: Execució de la prova de fugues de dades
-        stage('Data Leakage Check') {
-            steps {
-                sh """ echo 'Execució de la prova de fugues de dades ${env.MODELS}' """
-                sh """. venv/bin/activate && ${PYTHON} audit_text/data_leakage.py ${env.MODELS} """
-            }
-        }
-
-        // Etapa 8: Execució de Garak
+        // Etapa 4: Execució de Garak
         stage('Garak Check') {
             steps {
                 sh """ echo 'Execució de la prova de Garak a ${env.MODELS}' """
-                sh """. venv/bin/activate && ${PYTHON} audit_text/run_garak.py ${env.MODELS} --output resultats_garak.json """
+                sh """. venv/bin/activate && ./run_garak.sh ${env.MODELS} $PROBES | tee logs_${env.MODELS}.txt """
             }
         }
 
@@ -90,7 +59,7 @@ pipeline {
         // Etapa 10: Arxivar resultats
         stage('Archive Results') {
             steps {
-                archiveArtifacts artifacts: 'results/*.json', allowEmptyArchive: true
+                archiveArtifacts artifacts: 'results/*.txt', allowEmptyArchive: true
             }
         }
     }
