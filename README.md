@@ -71,9 +71,9 @@ En l'arxiu ```JenkinsfileImage``` hi ha l'auditoria de Models de Text-to-Image f
 ## 👤 Autor
 Guillem Hernández Sola
 
-(https://www.uoc.edu/ca/estudis/masters/master-universitari-ciberseguretat-privadesa-landmkt?esl-k=google-ads%7Cng%7Cc570858264445%7Cmp%7Ckmaster%20uoc%20ciberseguretat%7Cp%7Ct%7Cdc%7Ca133062043564%7Cg15285581959&utm_medium=cpc&utm_source=googlebrand&utm_campaign=cap_mu_ca&utm_term=master%20uoc%20ciberseguretat&gad_source=1&gad_campaignid=15285581959&gbraid=0AAAAAD_RHGJbHzGmeCevXcHUrxTK9xoeb&gclid=Cj0KCQiAubrJBhCbARIsAHIdxD8aL4fFCIP_pQ7_jvgkuWAB4XQah0Isn8MqZnRzV4vDBwUNhYivFeMaAl_yEALw_wcB)[Màster en Ciberseguretat i Privadesa (UOC)]
+[Màster en Ciberseguretat i Privadesa (UOC)](https://www.uoc.edu/ca/estudis/masters/master-universitari-ciberseguretat-privadesa-landmkt?esl-k=google-ads%7Cng%7Cc570858264445%7Cmp%7Ckmaster%20uoc%20ciberseguretat%7Cp%7Ct%7Cdc%7Ca133062043564%7Cg15285581959&utm_medium=cpc&utm_source=googlebrand&utm_campaign=cap_mu_ca&utm_term=master%20uoc%20ciberseguretat&gad_source=1&gad_campaignid=15285581959&gbraid=0AAAAAD_RHGJbHzGmeCevXcHUrxTK9xoeb&gclid=Cj0KCQiAubrJBhCbARIsAHIdxD8aL4fFCIP_pQ7_jvgkuWAB4XQah0Isn8MqZnRzV4vDBwUNhYivFeMaAl_yEALw_wcB)
 
-(https://github.com/guillemhs)[GitHub: @guillemhs]
+[GitHub: @guillemhs](https://github.com/guillemhs)
 
 ## 📄 Llicència i autoria
 
