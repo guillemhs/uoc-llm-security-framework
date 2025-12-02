@@ -1,7 +1,7 @@
 # UOC LLM Security Framework
 
-![Python Version](https://img.shields.io/badge/python-3.10%2B-blue)
-![License](https://img.shields.io/badge/license-MIT-green)
+![Python Version](https://img.shields.io/badge/python-3.12%2B-blue)
+![License](https://img.shields.io/badge/License-CC_BY--NC_4.0-lightgrey.svg)
 ![Institution](https://img.shields.io/badge/UOC-Màster_Ciberseguretat-red)
 ![Status](https://img.shields.io/badge/Status-Completed-success)
 
