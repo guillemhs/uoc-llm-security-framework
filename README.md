@@ -60,7 +60,7 @@ source venv/bin/activate  # En Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-*NOTA*: Més informació en el fitxer ```install_venv.sh```
+*NOTA*: Més informació en el fitxer [```install_venv.sh```](https://github.com/guillemhs/uoc-llm-security-framework/blob/main/install_venv.sh)
 
 *NOTA 2*: Es necessita un *HUGGINGFACE_HUB_TOKEN* perquè descarregar automàticament els models.
 
