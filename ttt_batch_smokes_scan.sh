@@ -9,16 +9,22 @@ PROBES="encoding.InjectBase64,dan.DanInTheWild,promptinject.HijackHateHumans,pac
 
 # 2. Define the list of models to scan
 # "openai-community/gpt2"
-# "Qwen/Qwen3-0.6B"
 # "Gensyn/Qwen2.5-0.5B-Instruct"
-# "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
-# "meta-llama/Llama-3.2-1B-Instruct"
 # "distilbert/distilgpt2"
 # "google/embeddinggemma-300m" 
+# "Qwen/Qwen3-0.6B"
+# "meta-llama/Llama-3.2-1B-Instruct"
+# "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
 
 # 2. Define the list of models to scan
 MODELS=(
-    "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
+ "openai-community/gpt2"
+ "Gensyn/Qwen2.5-0.5B-Instruct"
+ "distilbert/distilgpt2"
+ "google/embeddinggemma-300m" 
+ "Qwen/Qwen3-0.6B"
+ "meta-llama/Llama-3.2-1B-Instruct"
+ "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
 )
 
 # ================= EXECUTION LOOP =================

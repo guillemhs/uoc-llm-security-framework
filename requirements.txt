@@ -19,6 +19,7 @@ colorama==0.4.6
 datasets==3.6.0
 DateTime==5.5
 deepl==1.17.0
+diffusers==0.35.2
 dill==0.3.8
 distro==1.9.0
 ecoji==0.1.1
