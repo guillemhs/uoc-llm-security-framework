@@ -2,7 +2,7 @@
 
 ![Python Version](https://img.shields.io/badge/python-3.12%2B-blue)
 ![License](https://img.shields.io/badge/License-CC_BY--NC_4.0-lightgrey.svg)
-![Institution](https://img.shields.io/badge/UOC-Màster_Ciberseguretat-red)
+![Institution](https://img.shields.io/badge/UOC-Màster_de_Ciberseguretat_i_privadesa-73EDFF?style=flat-square&labelColor=000078&color=73EDFF)
 
 Aquest repositori conté el codi font, els scripts d'auditoria i els resultats experimentals desenvolupats com a part del **Treball Final de Màster (TFM)** del Màster Universitari en Ciberseguretat i Privadesa de la **Universitat Oberta de Catalunya (UOC)**.
 
