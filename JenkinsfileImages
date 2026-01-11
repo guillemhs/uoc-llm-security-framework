@@ -47,7 +47,7 @@ pipeline {
                 // El login manual sovint no cal si la variable d'entorn està setejada, 
                 // però ho deixem per seguretat amb --token
                 sh """
-                    . venv/bin/activate && source ./venv/bin/activate && hf auth login --token  ${HF_TOKEN}
+                    source ./venv/bin/activate   && hf auth login --token  ${HF_TOKEN}
                     export HUGGINGFACE_HUB_TOKEN=${HF_TOKEN}
                     echo 'Descarregant el model: ${params.MODELS}'
                     ${PYTHON} setup/download_text_to_image_model.py "${params.MODELS}"

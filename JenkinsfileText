@@ -1,76 +1,92 @@
 pipeline {
     agent any
 
+    // 1. Definim els paràmetres d'entrada perquè no falli per variables buides
+    parameters {
+        string(name: 'MODELS', defaultValue: 'compvis/stable-diffusion-v1-4', description: 'Model de HuggingFace a analitzar')
+        string(name: 'PROBES', defaultValue: 'encoding', description: 'Tipus de probes per a Garak')
+    }
+
     environment {
-        PYTHON = 'python3' // Defineix la versió de Python a utilitzar
-        HUGGINGFACE_HUB_TOKEN = credentials('huggingface-token-id') // id del secret
+        PYTHON = 'python3'
+        // Aquesta variable ja estarà disponible per a tots els sh steps
+        HUGGINGFACE_HUB_TOKEN = credentials('huggingface-token-id')
     }
 
     stages {
-        // Etapa 0: Selecció del model
         stage('Model Selection') {
             steps {
-                sh "echo 'Model: ${env.MODELS}'"
+                // Utilitzem params.MODELS en lloc d'env.MODELS per claredat
+                echo "Model seleccionat: ${params.MODELS}"
+                echo "Probes seleccionades: ${params.PROBES}"
             }
         } 
 
-        // Etapa 1: Clonar el codi del repositori
         stage('Checkout Code') {
             steps {
                 git url: 'https://github.com/guillemhs/uoc-llm-security-framework.git', branch: 'main'
             }
         } 
 
-        // Etapa 2: Configurar l'entorn virtual Python
         stage('Setup Python Environment') {
             steps {
-                sh '${PYTHON} -m venv venv' // Crear l'entorn virtual
-                sh '. venv/bin/activate && pip install --upgrade pip' // Actualitzar pip
-                sh '. venv/bin/activate && pip install -r requirements.txt' // Instal·lar dependències
-                sh '. venv/bin/activate && pip install huggingface_hub[cli]' // Instal·lar la CLI de HuggingFace
+                // Agrupem en un sol sh per eficiència
+                sh """
+                    ${PYTHON} -m venv venv
+                    . venv/bin/activate
+                    pip install --upgrade pip
+                    pip install -r requirements.txt
+                    pip install "huggingface_hub[cli]"
+                """
             }
         }
 
-        // Etapa 3: Descarregar el model de HuggingFace
         stage('Download HuggingFace Model') {
             steps {
-                sh """ source ./venv/bin/activate && hf auth login --token $HUGGINGFACE_HUB_TOKEN """ 
-                sh """ export HUGGINGFACE_HUB_TOKEN=$HUGGINGFACE_HUB_TOKEN """
-                sh """ echo 'Descarregar el model de HuggingFace ${env.MODELS}' """
-                sh """ . venv/bin/activate && ${PYTHON} setup/download_model.py ${env.MODELS} """
+                // No cal fer export manual, la variable d'entorn ja hi és.
+                // Fem el login i la descàrrega en el mateix bloc per assegurar l'entorn.
+                sh """
+                    source ./venv/bin/activate && hf auth login --token  ${HF_TOKEN}
+                    echo 'Descarregant el model: ${params.MODELS}'
+                    ${PYTHON} setup/download_model.py "${params.MODELS}"
+                """
             } 
         }
 
-        // Etapa 4: Execució de Garak
         stage('Garak Check') {
             steps {
-                sh """ echo 'Execució de la prova de Garak a ${env.MODELS}' """
-                sh """. venv/bin/activate && ./run_garak.sh ${env.MODELS} $PROBES | tee logs_${env.MODELS}.txt """
-            }
-        }
-
-        // Etapa 9: Agregar resultats
-        stage('Aggregate Results') {
-            steps {
-                sh """. venv/bin/activate && ${PYTHON} utils/aggregate_results.py ${env.MODELS} """
-            }
-        }
-
-        // Etapa 10: Arxivar resultats
-        stage('Archive Results') {
-            steps {
-                archiveArtifacts artifacts: 'results/*.txt', allowEmptyArchive: true
+                script {
+                    // Sanititzem el nom del model per evitar errors amb la barra '/'
+                    def safeModelName = params.MODELS.replaceAll('/', '_')
+                    
+                    sh """
+                        . venv/bin/activate
+                        echo 'Execució de Garak a ${params.MODELS} amb probes ${params.PROBES}'
+                        chmod +x run_garak.sh
+                        ./run_garak.sh "${params.MODELS}" "${params.PROBES}" | tee logs_${safeModelName}.txt
+                    """
+                }
             }
         }
     }
 
-    // Post-execució: enviar notificacions o netejar recursos
     post {
+        always {
+            echo 'Pipeline finalitzat. Processant resultats...'
+            // Només intentem executar l'script si l'entorn virtual existeix
+            script {
+                if (fileExists('venv/bin/activate')) {
+                    sh """. venv/bin/activate && ${PYTHON} utils/aggregate_results.py "${params.MODELS}" """
+                }
+            }
+            // Arxivem resultats i logs
+            archiveArtifacts artifacts: 'results/*.txt, logs_*.txt', allowEmptyArchive: true
+        }
         success {
-            echo """Pipeline per ${env.MODELS} completat amb èxit  """
+            echo "Pipeline per ${params.MODELS} completat amb èxit."
         }
         failure {
-            echo 'El pipeline ha fallat. Revisa els logs per trobar el problema.'
+            echo 'El pipeline ha fallat.'
         }
     }
 }
