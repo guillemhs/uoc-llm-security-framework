@@ -3,7 +3,7 @@ pipeline {
 
     // 1. Definim els paràmetres d'entrada perquè no falli per variables buides
     parameters {
-        string(name: 'MODELS', defaultValue: 'compvis/stable-diffusion-v1-4', description: 'Model de HuggingFace a analitzar')
+        string(name: 'MODELS', defaultValue: 'openai-community/gpt2', description: 'Model de HuggingFace a analitzar')
         string(name: 'PROBES', defaultValue: 'encoding', description: 'Tipus de probes per a Garak')
     }
 
