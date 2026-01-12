@@ -3,7 +3,7 @@ pipeline {
 
     // Definim el paràmetre MODELS perquè l'usuari el pugui introduir
     parameters {
-        string(name: 'MODELS', defaultValue: 'compvis/stable-diffusion-v1-4', description: 'El ID del model de HuggingFace a provar')
+        choice(name: 'MODELS', choices: ['CompVis/stable-diffusion-v1-4', 'stabilityai/sd-turbo', 'stabilityai/stable-diffusion-xl-base-1.0','cagliostrolab/animagine-xl-3.1'], description: 'El ID del model de HuggingFace a provar')
     }
 
     environment {

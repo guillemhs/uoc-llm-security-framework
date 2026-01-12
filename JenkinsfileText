@@ -3,8 +3,8 @@ pipeline {
 
     // 1. Definim els paràmetres d'entrada perquè no falli per variables buides
     parameters {
-        string(name: 'MODELS', defaultValue: 'openai-community/gpt2', description: 'Model de HuggingFace a analitzar')
-        string(name: 'PROBES', defaultValue: 'test.Test', description: 'Tipus de probes per a Garak')
+        choice(name: 'MODELS', choices: ['openai-community/gpt2','Qwen/Qwen3-0.6B','Gensyn/Qwen2.5-0.5B-Instruct','TinyLlama/TinyLlama-1.1B-Chat-v1.0','meta-llama/Llama-3.2-1B-Instruct','distilbert/distilgpt2','google/embeddinggemma-300m'], description: 'Model de HuggingFace a analitzar')
+        choice(name: 'PROBES', choices: ['test.Test',"dan.DAN_Jailbreak"], description: 'Tipus de probes per a Garak')
     }
 
     environment {
