@@ -4,7 +4,7 @@ pipeline {
     // 1. Definim els paràmetres d'entrada perquè no falli per variables buides
     parameters {
         string(name: 'MODELS', defaultValue: 'openai-community/gpt2', description: 'Model de HuggingFace a analitzar')
-        string(name: 'PROBES', defaultValue: 'encoding', description: 'Tipus de probes per a Garak')
+        string(name: 'PROBES', defaultValue: 'test.Test', description: 'Tipus de probes per a Garak')
     }
 
     environment {
