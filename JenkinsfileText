@@ -46,7 +46,7 @@ pipeline {
                 // No cal fer export manual, la variable d'entorn ja hi és.
                 // Fem el login i la descàrrega en el mateix bloc per assegurar l'entorn.
                 sh """
-                    source ./venv/bin/activate && hf auth login --token  ${HF_TOKEN}
+                    source ./venv/bin/activate && hf auth login --token  ${HUGGINGFACE_HUB_TOKEN}
                     echo 'Descarregant el model: ${params.MODELS}'
                     ${PYTHON} setup/download_model.py "${params.MODELS}"
                 """
